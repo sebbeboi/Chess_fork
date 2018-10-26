@@ -8,6 +8,9 @@ import pieces.Piece;
 public class Square extends Group {
 
 	public static final double SIZE = 80;
+
+	public static Square active;
+
 	private Rectangle bg;
 	private Color originalColor;
 	private Piece piece;
@@ -19,17 +22,47 @@ public class Square extends Group {
 
 		this.setOnMouseClicked(event -> {
 
+			makeActive();
+			
 			// EXEMPEL:
-			if (hasPiece()) {
-				if (!this.getBackground().getFill().equals(originalColor)) {
-					this.getBackground().setFill(originalColor);
-				} else {
-					this.getBackground().setFill(Color.RED);
-				}
-			}
-
 		});
+	}
+		
+			
 
+	private void makeActive() {
+		
+		if (active == this){
+			makeInactive();
+			return;
+		
+		}
+		
+		else if(!hasPiece()){
+			
+			this.addPiece(active.getPiece());
+			active.piece = null;
+			active.makeInactive();
+			return;
+			
+		}
+	
+		else if(active != null){
+			active.makeInactive();
+		}
+		
+		active = this;
+		
+		this.getBackground().setFill(Color.RED);
+		
+		
+		
+
+	}
+
+	private void makeInactive() {
+		active = null;
+		this.getBackground().setFill(originalColor);
 	}
 
 	public void addPiece(Piece p) {
@@ -41,6 +74,10 @@ public class Square extends Group {
 		return this.piece != null;
 	}
 
+	public Piece getPiece(){
+		return this.piece;
+	}
+	
 	public Rectangle getBackground() {
 		return this.bg;
 	}

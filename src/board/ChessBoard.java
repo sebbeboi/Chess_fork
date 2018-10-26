@@ -1,5 +1,4 @@
 package board;
-
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import pieces.Bishop;
